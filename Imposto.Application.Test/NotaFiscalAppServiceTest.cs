@@ -42,7 +42,7 @@ namespace Imposto.Application.Test
         }
 
         /// <summary>
-        /// 
+        /// Testar o mapeamento 
         /// </summary>
         [TestMethod]
         public void TestarMapeamento()

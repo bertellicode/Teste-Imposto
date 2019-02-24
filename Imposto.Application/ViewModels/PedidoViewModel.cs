@@ -9,7 +9,6 @@ namespace Imposto.Application.ViewModels
     {
         public string EstadoDestino { get; set; }
         public string EstadoOrigem { get; set; }
-
         public string NomeCliente { get; set; }
 
         public List<PedidoItemViewModel> ItensDoPedido { get; set; }

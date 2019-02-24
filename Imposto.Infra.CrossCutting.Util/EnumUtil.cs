@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -32,13 +34,34 @@ namespace Imposto.Infra.CrossCutting.Util
         }
 
         /// <summary>
-        /// Método que retorno uma lista do tipo chave/valor de todos elementos do enum.
+        /// Método que retorna uma lista do tipo chave/valor de todos elementos do enum.
         /// </summary>
         /// <typeparam name="T">É preciso passar o tipo do enum.</typeparam>
-        /// <returns>Lista o valor e descrição de todos os itens do enum.</returns>
-        public static List<KeyValuePair<string, string>> GetEnumSelectList<T>()
+        /// <returns>Lista a Descrição/Valor de todos os itens do enum.</returns>
+        public static List<KeyValuePair<string, string>> GetEnumSelectListDescriptionAndKey<T>()
         {
-            var listSelectItens = (System.Enum.GetNames(typeof(T)).Select(e => new KeyValuePair<string, string>(GetDescription((System.Enum)System.Enum.Parse(typeof(T), e.ToString())), e.ToString() )   )).ToList();
+            var listSelectItens = (Enum.GetNames(typeof(T)).Select(e => 
+                new KeyValuePair<string, string>(
+                    GetDescription((Enum)Enum.Parse(typeof(T), e.ToString())), 
+                    e.ToString())))
+                .ToList();
+
+            return listSelectItens;
+        }
+
+        /// <summary>
+        /// Método que retorna uma lista do tipo chave/valor de todos elementos do enum.
+        /// </summary>
+        /// <typeparam name="T">É preciso passar o tipo do enum.</typeparam>
+        /// <returns>Lista a Chave/Valor de todos os itens do enum.</returns>
+        public static List<KeyValuePair<string, string>> GetEnumSelectListKeyAndValue<T>(string format = null, CultureInfo culture = null)
+        {
+            var listSelectItens = (Enum.GetValues(typeof(T))
+                .Cast<T>()
+                    .Select(e => new KeyValuePair<string, string>(
+                        Enum.GetName(typeof(T), e), 
+                        string.IsNullOrEmpty(format) ? e.GetHashCode().ToString() : e.GetHashCode().ToString(format, culture))))
+                .ToList();
 
             return listSelectItens;
         }

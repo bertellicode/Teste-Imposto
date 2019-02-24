@@ -50,7 +50,9 @@ namespace TesteImposto
             {
                 new KeyValuePair<string, string>("Selecione um estado", "")
             };
-            list.AddRange(EnumUtil.GetEnumSelectList<EstadosEnum>());
+            list.AddRange(EnumUtil.GetEnumSelectListDescriptionAndKey<EstadosEnum>()
+                .OrderBy(x => x.Value));
+
             combo.DataSource = list;
             combo.DisplayMember = "Key";
             combo.ValueMember = "Value";

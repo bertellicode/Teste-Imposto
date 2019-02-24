@@ -1,6 +1,9 @@
 ﻿
 using System.Collections.Generic;
+using System.Globalization;
 using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Enums;
+using Imposto.Infra.CrossCutting.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Imposto.Domain.Test
@@ -25,19 +28,7 @@ namespace Imposto.Domain.Test
         {
             notaFiscalItem = new NotaFiscalItem();
 
-            List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>()
-            {
-                new KeyValuePair<string, string>("RJ", "6.000"),
-                new KeyValuePair<string, string>("PE", "6.001"),
-                new KeyValuePair<string, string>("MG", "6.002"),
-                new KeyValuePair<string, string>("PB", "6.003"),
-                new KeyValuePair<string, string>("PR", "6.004"),
-                new KeyValuePair<string, string>("PI", "6.005"),
-                new KeyValuePair<string, string>("RO", "6.006"),
-                new KeyValuePair<string, string>("TO", "6.008"),
-                new KeyValuePair<string, string>("SE", "6.009"),
-                new KeyValuePair<string, string>("PA", "6.010")
-            };
+            var list = EnumUtil.GetEnumSelectListKeyAndValue<EstadoCfopEnum>("0,0", CultureInfo.CreateSpecificCulture("el-GR"));
 
             foreach (KeyValuePair<string, string> x in list)
             {

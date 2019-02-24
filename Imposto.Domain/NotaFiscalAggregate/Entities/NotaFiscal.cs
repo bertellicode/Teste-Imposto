@@ -17,7 +17,7 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
         public string EstadoDestino { get; set; }
         public string EstadoOrigem { get; set; }
 
-        public ICollection<NotaFiscalItem> ItensDaNotaFiscal { get; set; }
+        public virtual List<NotaFiscalItem> ItensDaNotaFiscal { get; set; }
 
         public bool AdicionarItemDaNotaFiscal(NotaFiscalItem notaFiscalItem, bool brinde)
         {
