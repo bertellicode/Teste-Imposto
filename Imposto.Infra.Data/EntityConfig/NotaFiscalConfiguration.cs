@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Infra.Data.EntityConfig
 {
@@ -16,14 +16,23 @@ namespace Imposto.Infra.Data.EntityConfig
             this.Property(t => t.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            this.Property(t => t.NumeroNotaFiscal)
+                .IsOptional();
+
+            this.Property(t => t.Serie)
+                .IsOptional();
+
             this.Property(t => t.NomeCliente)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsOptional();
 
             this.Property(t => t.EstadoDestino)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsOptional();
 
             this.Property(t => t.EstadoOrigem)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsOptional();
 
             // Table & Column Mappings
             this.ToTable("NotaFiscal");

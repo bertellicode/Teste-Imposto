@@ -4,8 +4,9 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using Imposto.Domain.Entities;
-using Imposto.Domain.Interfaces.Repositories;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
+using Imposto.Infra.CrossCutting.Util;
 using Imposto.Infra.Data.Contexto;
 
 namespace Imposto.Infra.Data.Repositories
@@ -51,11 +52,11 @@ namespace Imposto.Infra.Data.Repositories
                 var id = _Db.Database.ExecuteSqlCommand(
                     "P_NOTA_FISCAL @pId OUT,@pNumeroNotaFiscal,@pSerie,@pNomeCliente,@pEstadoDestino,@pEstadoOrigem",
                     resultParameter,
-                    new SqlParameter("@pNumeroNotaFiscal", notaFiscal.NumeroNotaFiscal),
-                    new SqlParameter("@pSerie", notaFiscal.Serie),
-                    new SqlParameter("@pNomeCliente", notaFiscal.NomeCliente),
-                    new SqlParameter("@pEstadoDestino", notaFiscal.EstadoDestino),
-                    new SqlParameter("@pEstadoOrigem", notaFiscal.EstadoOrigem)
+                    new SqlParameter("@pNumeroNotaFiscal", notaFiscal.NumeroNotaFiscal.GetValueOrDBNull()),
+                    new SqlParameter("@pSerie", notaFiscal.Serie.GetValueOrDBNull()),
+                    new SqlParameter("@pNomeCliente", notaFiscal.NomeCliente.GetValueOrDBNull()),
+                    new SqlParameter("@pEstadoDestino", notaFiscal.EstadoDestino.GetValueOrDBNull()),
+                    new SqlParameter("@pEstadoOrigem", notaFiscal.EstadoOrigem.GetValueOrDBNull())
                 ); 
             }
             catch (Exception e)

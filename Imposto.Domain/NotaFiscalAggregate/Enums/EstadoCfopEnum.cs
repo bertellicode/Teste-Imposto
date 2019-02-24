@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Imposto.Domain.Enums
+namespace Imposto.Domain.NotaFiscalAggregate.Enums
 {
     public enum EstadoCfopEnum
     {

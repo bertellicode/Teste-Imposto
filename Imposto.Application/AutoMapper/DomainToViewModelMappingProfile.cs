@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Imposto.Application.ViewModels;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Application.AutoMapper
 {

@@ -7,7 +7,7 @@
     {
         public string NomeProduto { get; set; }
         public string CodigoProduto { get; set; }        
-        public double ValorItemPedido { get; set; }
+        public decimal? ValorItemPedido { get; set; }
         public bool Brinde { get; set; }        
     }
 }

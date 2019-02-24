@@ -1,8 +1,8 @@
 ﻿using Imposto.Application;
 using Imposto.Application.Interfaces;
-using Imposto.Domain.Interfaces.Repositories;
-using Imposto.Domain.Interfaces.Services;
-using Imposto.Domain.Services;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
+using Imposto.Domain.NotaFiscalAggregate.Services;
 using Imposto.Infra.Data.Contexto;
 using Imposto.Infra.Data.Interfaces;
 using Imposto.Infra.Data.Repositories;

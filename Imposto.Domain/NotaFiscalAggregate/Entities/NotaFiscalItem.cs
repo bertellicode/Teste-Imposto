@@ -1,9 +1,9 @@
-﻿using Imposto.Domain.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Imposto.Domain.NotaFiscalAggregate.Enums;
 
-namespace Imposto.Domain.Entities
+namespace Imposto.Domain.NotaFiscalAggregate.Entities
 {
     public class NotaFiscalItem
     {
@@ -11,15 +11,15 @@ namespace Imposto.Domain.Entities
         public int IdNotaFiscal { get; set; }
         public string Cfop { get; set; }
         public string TipoIcms { get; set; }
-        public decimal BaseIcms { get; set; }
-        public decimal AliquotaIcms { get; set; }
-        public decimal ValorIcms { get; set; }
+        public decimal? BaseIcms { get; set; }
+        public decimal? AliquotaIcms { get; set; }
+        public decimal? ValorIcms { get; set; }
         public string NomeProduto { get; set; }
         public string CodigoProduto { get; set; }
-        public decimal BaseCalculoIpi { get; set; }
-        public decimal AliquotaIpi { get; set; }
-        public decimal ValorIpi { get; set; }
-        public decimal Desconto { get; set; }
+        public decimal? BaseCalculoIpi { get; set; }
+        public decimal? AliquotaIpi { get; set; }
+        public decimal? ValorIpi { get; set; }
+        public decimal? Desconto { get; set; }
 
         public NotaFiscal NotaFiscal { get; set; }
 
@@ -27,13 +27,33 @@ namespace Imposto.Domain.Entities
         /// Responsável por calcular o valor do CFOP.
         /// </summary>
         /// <param name="estadoDestino">Estado de destino da Nota Fiscal.</param>
-        public void CalcularCfop(string estadoDestino)
+        public void CalcularCfopPorEstado(string estadoDestino)
         {
-            var enumValue = (int)Enum.Parse(typeof(EstadoCfopEnum), estadoDestino);
+            var cfop = RecuperarCfopPorEstado(estadoDestino);
 
-            CultureInfo elGR = CultureInfo.CreateSpecificCulture("el-GR");
+            if (!string.IsNullOrEmpty(cfop))
+                Cfop = cfop;
+        }
 
-            Cfop = enumValue.ToString("0,0", elGR);
+        /// <summary>
+        /// Responsável por recuperar o valor do CFOP com base na chave que representa o Estado
+        /// </summary>
+        /// <param name="estadoDestino">Sigla do Estado Federativo no formato de texto</param>
+        /// <returns></returns>
+        public string RecuperarCfopPorEstado(string estadoDestino)
+        {
+            EstadoCfopEnum cfop;
+            var sucesso = Enum.TryParse(estadoDestino, out cfop);
+
+            if (sucesso)
+            {
+                var enumValue = (int)cfop;
+                CultureInfo elGR = CultureInfo.CreateSpecificCulture("el-GR");
+
+                return enumValue.ToString("0,0", elGR);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -53,7 +73,7 @@ namespace Imposto.Domain.Entities
         /// <param name="estadoDestino">Estado de destino da Nota Fiscal.</param>
         public void CalcularAliquotaIcms(string estadoOrigem, string estadoDestino)
         {
-            AliquotaIcms = (decimal) (estadoOrigem == estadoDestino ? 0.18 : 0.17);
+            AliquotaIcms = estadoOrigem == estadoDestino ? (decimal)0.18 : (decimal)0.17;
         }
 
         /// <summary>     
@@ -61,7 +81,8 @@ namespace Imposto.Domain.Entities
         /// </summary>
         public void CalcularBaseIcms()
         {
-            BaseIcms = Cfop == "6.009" ? BaseIcms * (decimal) 0.90 : BaseIcms;
+            var cfopSergipe = RecuperarCfopPorEstado(EstadoCfopEnum.SE.ToString());
+            BaseIcms = Cfop == cfopSergipe ? BaseIcms * (decimal)0.90 : BaseIcms;
         }
 
         /// <summary>
@@ -82,7 +103,7 @@ namespace Imposto.Domain.Entities
             if (brinde)
             {
                 TipoIcms = "60";
-                AliquotaIcms = (decimal) 0.18;
+                AliquotaIcms = (decimal)0.18;
                 ValorIcms = BaseIcms * AliquotaIcms;
                 AliquotaIpi = 0;
             }
@@ -106,7 +127,7 @@ namespace Imposto.Domain.Entities
             var estadosSudeste = new List<string>{ "RJ", "SP", "MG", "ES" };
             if (estadosSudeste.Contains(estadoDestino))
             {
-                Desconto = (decimal) 0.10;
+                Desconto = (decimal)0.10;
             }
         }
     }

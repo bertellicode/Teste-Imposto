@@ -1,5 +1,7 @@
 ﻿using System;
-using Imposto.Domain.Entities;
+using System.Linq;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
 using Imposto.Infra.Data.Repositories;
 using Imposto.Infra.Ioc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +17,8 @@ namespace Imposto.Infra.Data.Test
     {
         static Container container;
         private NotaFiscalItem notaFiscalItem;
-        private NotaFiscalItemRepository _notaFiscalItemRepository;
+        private INotaFiscalItemRepository _notaFiscalItemRepository;
+        private INotaFiscalRepository _notaFiscalRepository;
 
         public NotaFiscalItemRepositoryTest()
         {
@@ -23,28 +26,37 @@ namespace Imposto.Infra.Data.Test
             BootStrapper.RegisterServices(container);
             container.Verify();
 
+            PopularNotaFiscalItem();
+
             _notaFiscalItemRepository = container.GetInstance<NotaFiscalItemRepository>();
+            _notaFiscalRepository = container.GetInstance<NotaFiscalRepository>();
+        }
+
+        private void PopularNotaFiscalItem()
+        {
+            notaFiscalItem = new NotaFiscalItem
+            {
+                NomeProduto = Guid.NewGuid().ToString(),
+                CodigoProduto = Guid.NewGuid().ToString("N").Substring(0, 12),
+                BaseIcms = 100,
+                BaseCalculoIpi = 100,
+                AliquotaIpi = (decimal)0.10
+            };
         }
 
         /// <summary>
         /// Testa o método responsável por salvar o item da nota fiscal.
         /// </summary>
         [TestMethod]
-        public void Atualizar()
+        public void Salvar()
         {
-            var idTeste = 1011;
+            var notaFiscal = _notaFiscalRepository.GetAll().FirstOrDefault();
 
-            notaFiscalItem = _notaFiscalItemRepository.GetById(idTeste);
-           
-            var novoCodigoProduto = Guid.NewGuid().ToString("N").Substring(0, 12);
+            notaFiscal.AdicionarItemDaNotaFiscal(notaFiscalItem, false);
 
-            notaFiscalItem.CodigoProduto = novoCodigoProduto;
+            var salvo = _notaFiscalItemRepository.Salvar(notaFiscalItem);
 
-            _notaFiscalItemRepository.Salvar(notaFiscalItem);
-
-            var notaFiscalItemAtualizada = _notaFiscalItemRepository.GetById(idTeste);
-
-            Assert.AreEqual(novoCodigoProduto, notaFiscalItemAtualizada.CodigoProduto, "Record is not updated.");
+            Assert.AreEqual(true, salvo, "Criação de um novo Item de Nota Fiscal retorna um valor verdadeiro.");
         }
     }
 }

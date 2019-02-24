@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Imposto.Domain.Test
@@ -41,7 +41,7 @@ namespace Imposto.Domain.Test
 
             foreach (KeyValuePair<string, string> x in list)
             {
-                notaFiscalItem.CalcularCfop(x.Key);
+                notaFiscalItem.CalcularCfopPorEstado(x.Key);
 
                 Assert.AreEqual(x.Value, notaFiscalItem.Cfop, "Confere o valor aferido para o Cfop de acordo com o estado de destino.");
             }
@@ -123,7 +123,7 @@ namespace Imposto.Domain.Test
             notaFiscalItem = new NotaFiscalItem();
 
             notaFiscalItem.BaseIcms = 100;
-            notaFiscalItem.AliquotaIcms = (decimal) 0.18;
+            notaFiscalItem.AliquotaIcms = (decimal)0.18;
 
             notaFiscalItem.CalcularValorIcms();
 
@@ -158,7 +158,7 @@ namespace Imposto.Domain.Test
             notaFiscalItem = new NotaFiscalItem();
 
             notaFiscalItem.BaseCalculoIpi = 100;
-            notaFiscalItem.AliquotaIpi = (decimal) 0.10;
+            notaFiscalItem.AliquotaIpi = (decimal)0.10;
 
             notaFiscalItem.CalcularValorIpi();
 

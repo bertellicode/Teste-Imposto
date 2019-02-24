@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Infra.Data.EntityConfig
 {
@@ -17,37 +17,51 @@ namespace Imposto.Infra.Data.EntityConfig
             this.Property(t => t.Id)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            this.Property(t => t.IdNotaFiscal)
+                .IsRequired();
+
             this.Property(t => t.Cfop)
-                .HasMaxLength(5);
+                .HasMaxLength(5)
+                .IsOptional();
 
             this.Property(t => t.TipoIcms)
-                .HasMaxLength(20);
+                .HasMaxLength(20)
+                .IsOptional();
 
             this.Property(t => t.BaseIcms)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
             this.Property(t => t.AliquotaIcms)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
             this.Property(t => t.ValorIcms)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
             this.Property(t => t.NomeProduto)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsOptional();
 
             this.Property(t => t.CodigoProduto)
-                .HasMaxLength(20);
+                .HasMaxLength(20)
+                .IsOptional();
 
             this.Property(t => t.BaseCalculoIpi)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
             this.Property(t => t.AliquotaIpi)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
             this.Property(t => t.ValorIpi)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
             this.Property(t => t.Desconto)
+                .IsOptional()
                 .HasPrecision(18, 5);
 
 

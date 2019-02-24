@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomValidationResult.cs" />
+    <Compile Include="DatabaseUtil.cs" />
     <Compile Include="EnumUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

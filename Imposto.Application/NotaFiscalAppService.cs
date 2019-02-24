@@ -4,8 +4,8 @@ using System.Linq;
 using AutoMapper;
 using Imposto.Application.Interfaces;
 using Imposto.Application.ViewModels;
-using Imposto.Domain.Entities;
-using Imposto.Domain.Interfaces.Services;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
 using Imposto.Infra.CrossCutting.Util;
 using Imposto.Infra.Data.Interfaces;
 

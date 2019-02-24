@@ -1,7 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using Imposto.Application.ViewModels;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Application.AutoMapper.CustomTypeConverter
 {
@@ -29,28 +29,12 @@ namespace Imposto.Application.AutoMapper.CustomTypeConverter
                 {
                     NomeProduto = itemPedido.NomeProduto,
                     CodigoProduto = itemPedido.CodigoProduto,
-                    BaseIcms = (decimal) itemPedido.ValorItemPedido,
-                    BaseCalculoIpi = (decimal) itemPedido.ValorItemPedido,
-                    AliquotaIpi = (decimal) 0.10
+                    BaseIcms = itemPedido.ValorItemPedido,
+                    BaseCalculoIpi = itemPedido.ValorItemPedido,
+                    AliquotaIpi = (decimal)0.10
                 };
 
-                notaFiscalItem.CalcularCfop(pedido.EstadoDestino);
-
-                notaFiscalItem.CalcularTipoIcms(pedido.EstadoOrigem, pedido.EstadoDestino);
-
-                notaFiscalItem.CalcularAliquotaIcms(pedido.EstadoOrigem, pedido.EstadoDestino);
-
-                notaFiscalItem.CalcularBaseIcms();
-
-                notaFiscalItem.CalcularValorIcms();
-
-                notaFiscalItem.CalcularItemPedidoBrinde(itemPedido.Brinde);
-
-                notaFiscalItem.CalcularValorIpi();
-
-                notaFiscalItem.CalcularPercentualDesconto(pedido.EstadoDestino);
-
-                notafiscal.ItensDaNotaFiscal.Add(notaFiscalItem);
+                notafiscal.AdicionarItemDaNotaFiscal(notaFiscalItem, itemPedido.Brinde);
             }
 
             return notafiscal;

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data.SqlClient;
-using Imposto.Domain.Entities;
-using Imposto.Domain.Interfaces.Repositories;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
+using Imposto.Infra.CrossCutting.Util;
 using Imposto.Infra.Data.Contexto;
 
 namespace Imposto.Infra.Data.Repositories
@@ -20,22 +21,21 @@ namespace Imposto.Infra.Data.Repositories
                     "P_NOTA_FISCAL_ITEM @pId,@pIdNotaFiscal,@pCfop,@pTipoIcms,@pBaseIcms,@pAliquotaIcms,@pValorIcms,@pNomeProduto,@pCodigoProduto,@pBaseCalculoIpi,@pAliquotaIpi,@pValorIpi,@pDesconto",
                     new SqlParameter("@pId", notaFiscalItem.Id),
                     new SqlParameter("@pIdNotaFiscal", notaFiscalItem.IdNotaFiscal),
-                    new SqlParameter("@pCfop", notaFiscalItem.Cfop),
-                    new SqlParameter("@pTipoIcms", notaFiscalItem.TipoIcms),
-                    new SqlParameter("@pBaseIcms", notaFiscalItem.BaseIcms),
-                    new SqlParameter("@pAliquotaIcms", notaFiscalItem.AliquotaIcms),
-                    new SqlParameter("@pValorIcms", notaFiscalItem.ValorIcms),
-                    new SqlParameter("@pNomeProduto", notaFiscalItem.NomeProduto),
-                    new SqlParameter("@pCodigoProduto", notaFiscalItem.CodigoProduto),
-                    new SqlParameter("@pBaseCalculoIpi", notaFiscalItem.BaseCalculoIpi),
-                    new SqlParameter("@pAliquotaIpi", notaFiscalItem.AliquotaIpi),
-                    new SqlParameter("@pValorIpi", notaFiscalItem.ValorIpi),
-                    new SqlParameter("@pDesconto", notaFiscalItem.Desconto)
+                    new SqlParameter("@pCfop", notaFiscalItem.Cfop.GetValueOrDBNull()),
+                    new SqlParameter("@pTipoIcms", notaFiscalItem.TipoIcms.GetValueOrDBNull()),
+                    new SqlParameter("@pBaseIcms", notaFiscalItem.BaseIcms.GetValueOrDBNull()),
+                    new SqlParameter("@pAliquotaIcms", notaFiscalItem.AliquotaIcms.GetValueOrDBNull()),
+                    new SqlParameter("@pValorIcms", notaFiscalItem.ValorIcms.GetValueOrDBNull()),
+                    new SqlParameter("@pNomeProduto", notaFiscalItem.NomeProduto.GetValueOrDBNull()),
+                    new SqlParameter("@pCodigoProduto", notaFiscalItem.CodigoProduto.GetValueOrDBNull()),
+                    new SqlParameter("@pBaseCalculoIpi", notaFiscalItem.BaseCalculoIpi.GetValueOrDBNull()),
+                    new SqlParameter("@pAliquotaIpi", notaFiscalItem.AliquotaIpi.GetValueOrDBNull()),
+                    new SqlParameter("@pValorIpi", notaFiscalItem.ValorIpi.GetValueOrDBNull()),
+                    new SqlParameter("@pDesconto", notaFiscalItem.Desconto.GetValueOrDBNull())
                 );
             }
             catch (Exception e)
             {
-
                 Console.WriteLine(e);
                 return false;
             }

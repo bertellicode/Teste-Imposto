@@ -2,7 +2,7 @@
 using AutoMapper;
 using Imposto.Application.AutoMapper.CustomTypeConverter;
 using Imposto.Application.ViewModels;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Application.AutoMapper
 {

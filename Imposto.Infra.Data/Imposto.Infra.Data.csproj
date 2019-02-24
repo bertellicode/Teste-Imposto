@@ -68,6 +68,10 @@
       <Project>{61B7A4C6-D753-4D42-92AD-3C8EE1F957F8}</Project>
       <Name>Imposto.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Imposto.Infra.CrossCutting.Util\Imposto.Infra.CrossCutting.Util.csproj">
+      <Project>{08120EBB-DEB3-458D-BC22-C407780C8B12}</Project>
+      <Name>Imposto.Infra.CrossCutting.Util</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

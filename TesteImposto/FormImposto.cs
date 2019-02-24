@@ -101,6 +101,7 @@ namespace TesteImposto
             PopularPedidoItem(table);
 
             var erros = service.GerarNotaFiscal(pedido);
+
             ExibirMensagem(erros);
 
         }
@@ -123,7 +124,7 @@ namespace TesteImposto
                         Brinde = isBrinde,
                         CodigoProduto = row["Codigo do produto"].ToString(),
                         NomeProduto = row["Nome do produto"].ToString(),
-                        ValorItemPedido = valorItemPedido
+                        ValorItemPedido = (decimal?)valorItemPedido
                     });
             }
         }

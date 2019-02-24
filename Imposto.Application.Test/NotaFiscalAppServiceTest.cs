@@ -2,9 +2,9 @@
 using AutoMapper;
 using Imposto.Application.AutoMapper;
 using Imposto.Application.ViewModels;
-using Imposto.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Application.Test
 {

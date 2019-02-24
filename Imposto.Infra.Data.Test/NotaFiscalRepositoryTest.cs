@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
 using Imposto.Infra.Data.Repositories;
 using Imposto.Infra.Ioc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,7 +17,7 @@ namespace Imposto.Infra.Data.Test
     {
         static Container container;
         private NotaFiscal notaFiscal;
-        private NotaFiscalRepository _notaFiscalRepository;
+        private INotaFiscalRepository _notaFiscalRepository;
 
         public NotaFiscalRepositoryTest()
         {

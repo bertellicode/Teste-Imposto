@@ -1,9 +1,9 @@
 ﻿using System;
-using Imposto.Domain.Entities;
-using Imposto.Domain.Interfaces.Repositories;
-using Imposto.Domain.Interfaces.Services;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
+using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
 
-namespace Imposto.Domain.Services
+namespace Imposto.Domain.NotaFiscalAggregate.Services
 {
     public class NotaFiscalItemService : INotaFiscalItemService
     {

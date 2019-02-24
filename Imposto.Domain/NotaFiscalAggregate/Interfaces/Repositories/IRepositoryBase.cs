@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Imposto.Domain.Interfaces.Repositories
+namespace Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {

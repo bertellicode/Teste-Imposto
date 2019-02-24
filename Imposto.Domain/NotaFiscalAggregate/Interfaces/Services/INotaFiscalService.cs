@@ -1,7 +1,7 @@
 ﻿using System;
-using Imposto.Domain.Entities;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
-namespace Imposto.Domain.Interfaces.Services
+namespace Imposto.Domain.NotaFiscalAggregate.Interfaces.Services
 {
     public interface INotaFiscalService : IDisposable
     {

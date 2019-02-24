@@ -1,6 +1,6 @@
-﻿using Imposto.Domain.Entities;
+﻿using Imposto.Domain.NotaFiscalAggregate.Entities;
 
-namespace Imposto.Domain.Interfaces.Repositories
+namespace Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories
 {
     public interface INotaFiscalRepository : IRepositoryBase<NotaFiscal>
     {
