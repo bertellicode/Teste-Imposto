@@ -21,7 +21,7 @@ O projeto foi organizado em pastas a fim de facilitar a navegação e separar a 
 
 Foi utilizada a criação de projetos de testes unitários para cada projeto que tenha partes testáveis na aplicação. Por exemplo, o projeto de repositório terá seu projeto de testes unitário independente dos demais.<br/>
 
-Foi adotada a separação das classes de domínio das classes que representam modelos da camada de apresentação. Adição de uma camada de tradução(Application) entre os modelos que representam a camada de exibição e os modelos de domínio.<br/>
+Foi adotada a separação das classes de domínio das classes que representam modelos da camada de apresentação. Adição de uma camada de tradução(Application) entre os modelos que representam a camada de exibição e os modelos de domínio. Esse camada também é responsável por coordenar o workflow de uma operação orquestrando vários Domain Seervices e controlando a transação com o banco de dados atráves do padrão Unit Of Work.<br/>
 
 <b>Relatório de implementação</b> <br/>
 
@@ -36,19 +36,16 @@ o	Alguns valores de entrada não estavam sendo tratados quando eram nulos. Foram
 
 o	O método EmitirNotaFiscal() basicamente fazia a tradução do modelo que chegava da camada de apresentação para o modelo de domínio, essa parte foi transferida para a camada Application, que tem essa responsabilidade em especifico. <br/> 
 o	Todo o controle de transação foi realizado nessa camada, caso falhe qualquer operação nas camadas inferiores os dados não serão persistidos no banco.<br/> 
-o	Como não existiam regras de negócio complexas para validar durante as transações(maioria das regras envolvia cálculo de campos) com o banco, foi adotado um retorno mais genérico de erro.<br/> 
-
-•	Service<br/> 
-
-o	A camada de serviço ficou com um papel menor devido a necessidade do projeto, mas optei por manter ela pensando em um cenário realístico, onde é preciso prever a escalabilidade da aplicação. <br/> 
+o	Como não existiam regras de negócio complexas para validar durante as transações(maioria das regras envolvia cálculo de campos) com o banco, foi adotado um retorno mais genérico de erro. Tomei a liberdade de definir alguns critérios de validação quanto a obrigatoriedade de campos que vem da tela e são usados nos cálculos.<br/> 
 
 •	Domínio <br/> 
 
-o	O método EmitirNotaFiscal() que ficava dentro na Nota Fiscal foi removido, isso porque ele estava sendo responsável por aplicar regras que na verdade eram responsabilidade do Item da Nota Fiscal. <br/> 
-o	Para o cálculo de CFOP foi identificado que somente o Estado de Destino já era suficiente para o cálculo. Com a implementação do Exercício 7 talvez seja válida a implementação do padrão Strategy.   <br/> 
+o	A Service Domain ficou com um papel de emitir as notificações de negócio.<br/> 
+o	O método EmitirNotaFiscal() que ficava dentro na Nota Fiscal foi removido, isso porque ele estava sendo responsável por aplicar regras que na verdade eram responsabilidade da entidade Item da Nota Fiscal. <br/> 
+o	Para o cálculo de CFOP foi identificado que somente o Estado de Destino já era suficiente para o cálculo. Foi implementado o padrão Strategy que removeu aqueles vários IFs.   <br/> 
 o	Ainda com relação ao cálculo do CFOP existe um problema na regra, que atribui dois CFOPs diferentes para a mesma condição. Quando o estado de destino é “SE”, segundo a regra o mesmo pode assumir os valores "6.007" e "6.009". No projeto adotei o “6009” como padrão porque ele é usado em outra regra de negócio.<br/> 
 o	No exercício 7 é especificado somente a forma de calculo do valor do percentual do desconto e não como mesmo entra no restante do cálculo do valor do item.<br/> 
 
 •	Repository<br/> 
 
-o	Para realizar alguns testes unitários necessitei usar um método de busca usando o Entity, no entanto o Entity reportou a necessidade de alterar o mapeamento das propriedades que estavam como decimal no banco e double na aplicação. Isso impactou em algumas mudanças no interior da aplicação, uma vez que c# trata double como tipo primitivo e decimal não. <br/> 
+o	Foi necessário alterar o mapeamento das propriedades que estavam como decimal no banco e double na aplicação. Isso impactou em algumas mudanças no interior da aplicação, adotei o uso de decimal na aplicação também. <br/> 
