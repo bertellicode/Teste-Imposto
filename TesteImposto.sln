@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesteImposto", "TesteImposto\TesteImposto.csproj", "{B477192F-814E-4710-8DBC-244AD89157C8}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imposto.Infra.Data", "Imposto.Infra.Data\Imposto.Infra.Data.csproj", "{BE55FA11-B8F6-425A-8474-6BD1A9845AF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imposto.Infra.CrossCutting.Util", "Imposto.Infra.CrossCutting.Util\Imposto.Infra.CrossCutting.Util.csproj", "{08120EBB-DEB3-458D-BC22-C407780C8B12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imposto.Domain.Core", "Imposto.Domain.Core\Imposto.Domain.Core.csproj", "{B38C479B-6827-4615-8BEC-682FDCB779B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{08120EBB-DEB3-458D-BC22-C407780C8B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08120EBB-DEB3-458D-BC22-C407780C8B12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08120EBB-DEB3-458D-BC22-C407780C8B12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38C479B-6827-4615-8BEC-682FDCB779B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38C479B-6827-4615-8BEC-682FDCB779B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38C479B-6827-4615-8BEC-682FDCB779B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38C479B-6827-4615-8BEC-682FDCB779B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,5 +97,9 @@ Global
 		{CC0F11DF-FD3F-41FA-BEC0-AF5A376B0019} = {3D2E10DC-EB6F-45A5-896D-5CDB51FF4D28}
 		{BE55FA11-B8F6-425A-8474-6BD1A9845AF1} = {CB46CCA7-B595-4BF3-968B-C8750D07E498}
 		{08120EBB-DEB3-458D-BC22-C407780C8B12} = {79D67E27-2333-476E-B40A-178DCC0671BF}
+		{B38C479B-6827-4615-8BEC-682FDCB779B8} = {3D2E10DC-EB6F-45A5-896D-5CDB51FF4D28}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AE4FAB5-AE2C-4D62-B215-5A2B4CD50FA3}
 	EndGlobalSection
 EndGlobal

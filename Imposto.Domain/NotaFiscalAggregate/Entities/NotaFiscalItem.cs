@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Imposto.Domain.Core.Entities;
 using Imposto.Domain.NotaFiscalAggregate.Enums;
 
 namespace Imposto.Domain.NotaFiscalAggregate.Entities
 {
-    public class NotaFiscalItem
+    public class NotaFiscalItem : Entity<NotaFiscal>
     {
-        public int Id { get; set; }
         public int IdNotaFiscal { get; set; }
         public string Cfop { get; set; }
         public string TipoIcms { get; set; }
@@ -129,6 +129,11 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
             {
                 Desconto = (decimal)0.10;
             }
+        }
+
+        public override bool Validar()
+        {
+            throw new NotImplementedException();
         }
     }
 }

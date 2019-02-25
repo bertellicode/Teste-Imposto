@@ -42,6 +42,11 @@ namespace Imposto.Infra.Data.UoW
             _dbContextTransaction = _context.Database.BeginTransaction();
         }
 
+        public void RollbackTransactionQuery()
+        {
+            _dbContextTransaction.Rollback();
+        }
+
         public void CommitQuery()
         {
             try

@@ -1,4 +1,5 @@
-﻿using Imposto.Domain.NotaFiscalAggregate.Entities;
+﻿using Imposto.Domain.Core.Interfaces;
+using Imposto.Domain.NotaFiscalAggregate.Entities;
 
 namespace Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories
 {

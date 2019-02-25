@@ -1,16 +1,19 @@
-﻿using System;
+﻿using FluentValidation;
+using Imposto.Domain.Core.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 
 namespace Imposto.Domain.NotaFiscalAggregate.Entities
 {
-    public class NotaFiscal
+    public class NotaFiscal : Entity<NotaFiscal>
     {
         public NotaFiscal()
         {
             ItensDaNotaFiscal = new List<NotaFiscalItem>();
         }
 
-        public int Id { get; set; }
         public int? NumeroNotaFiscal { get; set; }
         public int? Serie { get; set; }
         public string NomeCliente { get; set; }
@@ -21,7 +24,7 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
 
         public bool AdicionarItemDaNotaFiscal(NotaFiscalItem notaFiscalItem, bool brinde)
         {
-            if (!ValidarEstados())
+            if (!ValidationResult.IsValid)
                 return false;
 
             notaFiscalItem.CalcularCfopPorEstado(EstadoDestino);
@@ -45,19 +48,43 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
             return true;
         }
 
-        private bool ValidarEstados()
+        private void ValidarNomeCliente()
         {
-            return ValidarEstadoOrigem() && ValidarEstadoDestino();
+            RuleFor(x => x.NomeCliente)
+                .Must(x => !string.IsNullOrEmpty(NomeCliente))
+                .WithMessage("Obrigatório informar o Nome do Cliente!");
         }
 
-        private bool ValidarEstadoOrigem()
+        private void ValidarEstadoOrigem()
         {
-            return !string.IsNullOrEmpty(EstadoOrigem);
+            RuleFor(x => x.EstadoDestino)
+                .Must(x => !string.IsNullOrEmpty(EstadoDestino))
+                .WithMessage("Obrigatório informar o Estado Origem!");
         }
 
-        private bool ValidarEstadoDestino()
+        private void ValidarEstadoDestino()
         {
-            return !string.IsNullOrEmpty(EstadoDestino);
+            RuleFor(x => x.EstadoDestino)
+                .Must(x => !string.IsNullOrEmpty(EstadoDestino))
+                .WithMessage("Obrigatório informar o Estado Destino!");
+        }
+
+        private void ValidarItemNotaFiscal()
+        {
+            RuleFor(x => x.ItensDaNotaFiscal)
+                .Must(x => ItensDaNotaFiscal != null && ItensDaNotaFiscal.Any())
+                .WithMessage("Obrigatório informar ao menos um Item da Nota Fiscal!");
+        }
+
+        public override bool Validar()
+        {
+            ValidarNomeCliente();
+            ValidarEstadoOrigem();
+            ValidarEstadoDestino();
+            ValidarItemNotaFiscal();
+
+            ValidationResult = Validate(this);
+            return ValidationResult.IsValid;
         }
     }
 }

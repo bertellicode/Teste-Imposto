@@ -8,7 +8,7 @@ namespace Imposto.Application.AutoMapper
         {
             Mapper.Initialize(x =>
             {
-                x.AddProfile<DomainToViewModelMappingProfile>();
+                x.AddProfile<DomainToDtoMappingProfile>();
                 x.AddProfile<ViewModelToDomainMappingProfile>();
             });
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Imposto.Application;
 using Imposto.Application.ViewModels;
+using Imposto.Domain.Core.Notifications;
 using Imposto.Infra.CrossCutting.Util;
 using Imposto.Infra.Ioc;
 using SimpleInjector;
@@ -145,11 +146,11 @@ namespace TesteImposto
         /// Exibe a mensagem de retorno na telas.
         /// </summary>
         /// <param name="erros">Lista com as validações.</param>
-        private void ExibirMensagem(List<CustomValidationResult> erros)
+        private void ExibirMensagem(List<Notification> erros)
         {
             if (erros.Any())
             {
-                string msg = String.Join("\n", erros.Select(x => x.Message).ToArray());
+                string msg = String.Join("\n", erros.Select(x => x.Value).ToArray());
                 MessageBox.Show(msg);
             }
             else
@@ -178,6 +179,5 @@ namespace TesteImposto
                 e.Cancel = true;
             }
         }
-
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories
+namespace Imposto.Domain.Core.Interfaces
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {
@@ -47,6 +47,7 @@ namespace Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories
         /// </summary>
         /// <param name="id"></param>
         void Remove(int id);
+
         void Dispose();
     }
 }

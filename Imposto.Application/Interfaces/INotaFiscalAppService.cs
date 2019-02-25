@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Imposto.Application.ViewModels;
-using Imposto.Infra.CrossCutting.Util;
+using Imposto.Domain.Core.Notifications;
 
 namespace Imposto.Application.Interfaces
 {
@@ -13,7 +13,7 @@ namespace Imposto.Application.Interfaces
         /// </summary>
         /// <param name="pedido">PedidoViewModel</param>
         /// <returns>Retorna uma lista de erros para serem exibidos.</returns>
-        List<CustomValidationResult> GerarNotaFiscal(PedidoViewModel pedido);
+        List<Notification> GerarNotaFiscal(PedidoViewModel pedido);
 
     }
 }

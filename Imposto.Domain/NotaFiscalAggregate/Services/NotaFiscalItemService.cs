@@ -1,15 +1,18 @@
 ﻿using System;
+using Imposto.Domain.Core.Interfaces;
+using Imposto.Domain.Core.Services;
 using Imposto.Domain.NotaFiscalAggregate.Entities;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
 
 namespace Imposto.Domain.NotaFiscalAggregate.Services
 {
-    public class NotaFiscalItemService : INotaFiscalItemService
+    public class NotaFiscalItemService : Service, INotaFiscalItemService
     {
         private readonly INotaFiscalItemRepository _notaFiscalItemRepository;
 
-        public NotaFiscalItemService(INotaFiscalItemRepository notaFiscalItemRepository)
+        public NotaFiscalItemService(INotaFiscalItemRepository notaFiscalItemRepository,
+                                        INotificationHandler notificationHandler) : base(notificationHandler)
         {
             _notaFiscalItemRepository = notaFiscalItemRepository;
         }
@@ -22,7 +25,12 @@ namespace Imposto.Domain.NotaFiscalAggregate.Services
 
         public bool Salvar(NotaFiscalItem notaFiscalItem)
         {
-            return _notaFiscalItemRepository.Salvar(notaFiscalItem); ;
+            var retorno = _notaFiscalItemRepository.Salvar(notaFiscalItem);
+
+            if (!retorno)
+                NotificarValidacao(errorMessage: "Erro ao Salvar um item da Nota Fiscal!");
+
+            return retorno;
         }
 
     }

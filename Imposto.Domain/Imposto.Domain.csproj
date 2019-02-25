@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,19 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NotaFiscalAggregate\DTOs\NotaFiscalItemXmlDto.cs" />
+    <Compile Include="NotaFiscalAggregate\DTOs\NotaFiscalXmlDto.cs" />
     <Compile Include="NotaFiscalAggregate\Entities\NotaFiscal.cs" />
     <Compile Include="NotaFiscalAggregate\Entities\NotaFiscalItem.cs" />
     <Compile Include="NotaFiscalAggregate\Enums\EstadoCfopEnum.cs" />
     <Compile Include="NotaFiscalAggregate\Interfaces\Repositories\INotaFiscalItemRepository.cs" />
     <Compile Include="NotaFiscalAggregate\Interfaces\Repositories\INotaFiscalRepository.cs" />
-    <Compile Include="NotaFiscalAggregate\Interfaces\Repositories\IRepositoryBase.cs" />
     <Compile Include="NotaFiscalAggregate\Interfaces\Services\INotaFiscalItemService.cs" />
     <Compile Include="NotaFiscalAggregate\Interfaces\Services\INotaFiscalService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotaFiscalAggregate\Services\NotaFiscalItemService.cs" />
     <Compile Include="NotaFiscalAggregate\Services\NotaFiscalService.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Imposto.Domain.Core\Imposto.Domain.Core.csproj">
+      <Project>{B38C479B-6827-4615-8BEC-682FDCB779B8}</Project>
+      <Name>Imposto.Domain.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

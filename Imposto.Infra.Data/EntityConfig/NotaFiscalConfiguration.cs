@@ -34,6 +34,10 @@ namespace Imposto.Infra.Data.EntityConfig
                 .HasMaxLength(50)
                 .IsOptional();
 
+            this.Ignore(t => t.ValidationResult);
+
+            this.Ignore(t => t.CascadeMode);
+
             // Table & Column Mappings
             this.ToTable("NotaFiscal");
             this.Property(t => t.Id).HasColumnName("Id");

@@ -1,5 +1,7 @@
 ﻿using Imposto.Application;
 using Imposto.Application.Interfaces;
+using Imposto.Domain.Core.Interfaces;
+using Imposto.Domain.Core.Notifications;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
 using Imposto.Domain.NotaFiscalAggregate.Services;
@@ -33,6 +35,9 @@ namespace Imposto.Infra.Ioc
 
             container.Register<INotaFiscalRepository, NotaFiscalRepository>(Lifestyle.Singleton);
             container.Register<INotaFiscalItemRepository, NotaFiscalItemRepository>(Lifestyle.Singleton);
+
+            //Domain Core
+            container.Register<INotificationHandler, NotificationHandler>(Lifestyle.Singleton);
 
         }
     }

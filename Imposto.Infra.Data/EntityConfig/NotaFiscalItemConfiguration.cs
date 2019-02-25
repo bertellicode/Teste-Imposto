@@ -64,6 +64,9 @@ namespace Imposto.Infra.Data.EntityConfig
                 .IsOptional()
                 .HasPrecision(18, 5);
 
+            this.Ignore(t => t.ValidationResult);
+
+            this.Ignore(t => t.CascadeMode);
 
             // Table & Column Mappings
             this.ToTable("NotaFiscalItem");

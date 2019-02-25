@@ -1,15 +1,19 @@
 ﻿using System;
+using Imposto.Domain.Core.Interfaces;
+using Imposto.Domain.Core.Services;
+using Imposto.Domain.NotaFiscalAggregate.DTOs;
 using Imposto.Domain.NotaFiscalAggregate.Entities;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
 
 namespace Imposto.Domain.NotaFiscalAggregate.Services
 {
-    public class NotaFiscalService : INotaFiscalService
+    public class NotaFiscalService : Service, INotaFiscalService
     {
         private readonly INotaFiscalRepository _notaFiscalRepository;
 
-        public NotaFiscalService(INotaFiscalRepository notaFiscalRepository)
+        public NotaFiscalService(INotaFiscalRepository notaFiscalRepository,
+                                    INotificationHandler notificationHandler) : base(notificationHandler)
         {
             _notaFiscalRepository = notaFiscalRepository;
         }
@@ -20,18 +24,35 @@ namespace Imposto.Domain.NotaFiscalAggregate.Services
             GC.SuppressFinalize(this);
         }
 
-        public int Salvar(NotaFiscal notaFiscal)
+        public bool GerarXml(NotaFiscalXmlDto notaFiscal)
         {
-            int id = 0;
-
             var gerouXml = _notaFiscalRepository.SalvarXml(notaFiscal);
 
-            if (gerouXml)
+            if (!gerouXml)
+                NotificarValidacao(errorMessage: "Erro ao gerar XML da Nota Fiscal!");
+
+            return gerouXml;
+        }
+
+        public int? Salvar(NotaFiscal notaFiscal)
+        {
+            var retorno = (int?)null;
+
+            if (!notaFiscal.EhValido)
             {
-                id = _notaFiscalRepository.Salvar(notaFiscal);
+                NotificarValidacoesErro(notaFiscal.ValidationResult);
+                return retorno;
             }
 
-            return id;
+            if (!HasNotifications())
+            {
+                retorno = _notaFiscalRepository.Salvar(notaFiscal);
+
+                if (!retorno.HasValue)
+                    NotificarValidacao(errorMessage: "Erro ao persistir Nota Fiscal!");
+            }
+
+            return retorno;
         }
 
     }

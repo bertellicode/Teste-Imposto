@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{901F6240-585E-4D4C-AA6A-D8A8734DFDEE}</ProjectGuid>
+    <ProjectGuid>{B38C479B-6827-4615-8BEC-682FDCB779B8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Imposto.Infra.Ioc</RootNamespace>
-    <AssemblyName>Imposto.Infra.Ioc</AssemblyName>
+    <RootNamespace>Imposto.Domain.Core</RootNamespace>
+    <AssemblyName>Imposto.Domain.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,12 +31,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleInjector, Version=4.0.8.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.0.8\lib\net45\SimpleInjector.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,39 +51,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BootStrapper.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Interfaces\INotificationHandler.cs" />
+    <Compile Include="Interfaces\IRepositoryBase.cs" />
+    <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Notifications\Notification.cs" />
+    <Compile Include="Notifications\NotificationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Service.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Imposto.Application\Imposto.Application.csproj">
-      <Project>{7A3C44EB-06E0-436F-8539-EB41DC91EA81}</Project>
-      <Name>Imposto.Application</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Imposto.Domain.Core\Imposto.Domain.Core.csproj">
-      <Project>{B38C479B-6827-4615-8BEC-682FDCB779B8}</Project>
-      <Name>Imposto.Domain.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Imposto.Domain\Imposto.Domain.csproj">
-      <Project>{61B7A4C6-D753-4D42-92AD-3C8EE1F957F8}</Project>
-      <Name>Imposto.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Imposto.Infra.Data\Imposto.Infra.Data.csproj">
-      <Project>{BE55FA11-B8F6-425A-8474-6BD1A9845AF1}</Project>
-      <Name>Imposto.Infra.Data</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

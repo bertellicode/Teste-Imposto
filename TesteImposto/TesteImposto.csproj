@@ -88,9 +88,9 @@
       <Project>{7A3C44EB-06E0-436F-8539-EB41DC91EA81}</Project>
       <Name>Imposto.Application</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Imposto.Domain\Imposto.Domain.csproj">
-      <Project>{61B7A4C6-D753-4D42-92AD-3C8EE1F957F8}</Project>
-      <Name>Imposto.Domain</Name>
+    <ProjectReference Include="..\Imposto.Domain.Core\Imposto.Domain.Core.csproj">
+      <Project>{B38C479B-6827-4615-8BEC-682FDCB779B8}</Project>
+      <Name>Imposto.Domain.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Imposto.Infra.CrossCutting.Util\Imposto.Infra.CrossCutting.Util.csproj">
       <Project>{08120EBB-DEB3-458D-BC22-C407780C8B12}</Project>

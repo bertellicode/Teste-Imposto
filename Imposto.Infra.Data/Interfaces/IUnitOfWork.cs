@@ -22,5 +22,10 @@ namespace Imposto.Infra.Data.Interfaces
         /// Métdodo responsável por encerrar uma transação com o banco de dados.
         /// </summary>
         void CommitQuery();
+
+        /// <summary>
+        /// Método responsável por desfazer as alterações no banco e fechar a transação corrente
+        /// </summary>
+        void RollbackTransactionQuery();
     }
 }

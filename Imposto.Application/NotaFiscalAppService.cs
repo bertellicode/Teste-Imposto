@@ -4,6 +4,9 @@ using System.Linq;
 using AutoMapper;
 using Imposto.Application.Interfaces;
 using Imposto.Application.ViewModels;
+using Imposto.Domain.Core.Interfaces;
+using Imposto.Domain.Core.Notifications;
+using Imposto.Domain.NotaFiscalAggregate.DTOs;
 using Imposto.Domain.NotaFiscalAggregate.Entities;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Services;
 using Imposto.Infra.CrossCutting.Util;
@@ -16,10 +19,10 @@ namespace Imposto.Application
         private readonly INotaFiscalService _notaFiscalService;
         private readonly INotaFiscalItemService _notaFiscalItemService;
 
-
-        public NotaFiscalAppService(INotaFiscalService notaFiscalService
-            , INotaFiscalItemService notaFiscalItemService
-            , IUnitOfWork uow) : base(uow)
+        public NotaFiscalAppService(INotaFiscalService notaFiscalService,
+                                    INotaFiscalItemService notaFiscalItemService,
+                                    IUnitOfWork uow,
+                                    INotificationHandler notificationHandler) : base(uow, notificationHandler)
         {
             _notaFiscalService = notaFiscalService;
             _notaFiscalItemService = notaFiscalItemService;
@@ -31,36 +34,36 @@ namespace Imposto.Application
             GC.SuppressFinalize(this);
         }
 
-        public List<CustomValidationResult> GerarNotaFiscal(PedidoViewModel pedido)
+        public List<Notification> GerarNotaFiscal(PedidoViewModel pedido)
         {
-            var validacoes = new List<CustomValidationResult>();
+            InitializeNotifications();
 
             var notaFiscal = Mapper.Map<PedidoViewModel, NotaFiscal>(pedido);
 
             BeginTransactionQuery();
 
-            var id = _notaFiscalService.Salvar(notaFiscal);
+            var validacaoRetorno = notaFiscal.Validar();
 
-            if (id == 0)
+            if (validacaoRetorno)
             {
-                validacoes.Add(new CustomValidationResult("Problema ao gravar a Nota Fiscal!"));
+                var notaFiscalXmlDto = Mapper.Map<NotaFiscal, NotaFiscalXmlDto>(notaFiscal);
+                _notaFiscalService.GerarXml(notaFiscalXmlDto);
             }
 
-            foreach (NotaFiscalItem notaFiscalItem in notaFiscal.ItensDaNotaFiscal)
+            var notaFiscalRetorno = _notaFiscalService.Salvar(notaFiscal);
+
+            if (notaFiscalRetorno.HasValue)
             {
-                notaFiscalItem.IdNotaFiscal = id;
-                if (!_notaFiscalItemService.Salvar(notaFiscalItem))
+                foreach (NotaFiscalItem notaFiscalItem in notaFiscal.ItensDaNotaFiscal)
                 {
-                    validacoes.Add(new CustomValidationResult("Problema ao gravar um Item da Nota Fiscal!"));
+                    notaFiscalItem.IdNotaFiscal = notaFiscalRetorno.Value;
+                    _notaFiscalItemService.Salvar(notaFiscalItem);
                 }
             }
 
-            if (!validacoes.Any())
-            {
-                CommitQuery();
-            }
+            CommitQuery();
 
-            return validacoes;
+            return GetNotifications();
         }
     }
 }

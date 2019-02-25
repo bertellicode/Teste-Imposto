@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Imposto.Domain.NotaFiscalAggregate.DTOs;
 using Imposto.Domain.NotaFiscalAggregate.Entities;
 using Imposto.Domain.NotaFiscalAggregate.Interfaces.Repositories;
 using Imposto.Infra.Data.Repositories;
@@ -17,6 +18,7 @@ namespace Imposto.Infra.Data.Test
     {
         static Container container;
         private NotaFiscal notaFiscal;
+        private NotaFiscalXmlDto notaFiscalXmlDto;
         private INotaFiscalRepository _notaFiscalRepository;
 
         public NotaFiscalRepositoryTest()
@@ -26,12 +28,13 @@ namespace Imposto.Infra.Data.Test
             container.Verify();
 
             PopularNotaFiscal();
+            PopularNotaFiscalXmlDto();
 
             _notaFiscalRepository = container.GetInstance<NotaFiscalRepository>();
         }
 
         /// <summary>
-        /// Popula a nota fiscal usada nos métodos.
+        /// Popula a nota fiscal usada nos métodos
         /// </summary>
         private void PopularNotaFiscal()
         {
@@ -45,6 +48,33 @@ namespace Imposto.Infra.Data.Test
                 EstadoOrigem = "RJ",
                 ItensDaNotaFiscal = new List<NotaFiscalItem>()
             };
+        }
+
+        /// <summary>
+        /// Popula nota fiscal usada no método de gerar XML
+        /// </summary>
+        private void PopularNotaFiscalXmlDto()
+        {
+            notaFiscalXmlDto = new NotaFiscalXmlDto()
+            {
+                Id = 0,
+                NumeroNotaFiscal = 999999,
+                Serie = new Random().Next(Int32.MaxValue),
+                NomeCliente = "TESTE MOCK",
+                EstadoDestino = "SP",
+                EstadoOrigem = "RJ",
+            };
+
+            NotaFiscalItemXmlDto notaFiscalItem = new NotaFiscalItemXmlDto()
+            {
+                NomeProduto = "Produto teste mock",
+                CodigoProduto = "123-5548-555-00",
+                BaseIcms = 100,
+                BaseCalculoIpi = 100,
+                AliquotaIpi = (decimal)0.10
+            };
+
+            notaFiscalXmlDto.ItensDaNotaFiscal.Add(notaFiscalItem);
         }
 
         /// <summary>
@@ -64,7 +94,7 @@ namespace Imposto.Infra.Data.Test
         [TestMethod]
         public void SalvarXmlTest()
         {
-            var salvo = _notaFiscalRepository.SalvarXml(notaFiscal);
+            var salvo = _notaFiscalRepository.SalvarXml(notaFiscalXmlDto);
 
             Assert.AreEqual(true, salvo, "Criação de um novo arquivo XML retorna um valor verdadeiro.");
         }

@@ -34,6 +34,9 @@
       <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.8.1.3\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,7 +50,7 @@
     <Compile Include="ApplicationService.cs" />
     <Compile Include="AutoMapper\AutoMapperConfig.cs" />
     <Compile Include="AutoMapper\CustomTypeConverter\PedidoVwToNotaFiscalConverter.cs" />
-    <Compile Include="AutoMapper\DomainToViewModelMappingProfile.cs" />
+    <Compile Include="AutoMapper\DomainToDtoMappingProfile.cs" />
     <Compile Include="AutoMapper\ViewModelToDomainMappingProfile.cs" />
     <Compile Include="Interfaces\INotaFiscalAppService.cs" />
     <Compile Include="NotaFiscalAppService.cs" />
@@ -56,6 +59,10 @@
     <Compile Include="ViewModels\PedidoItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Imposto.Domain.Core\Imposto.Domain.Core.csproj">
+      <Project>{B38C479B-6827-4615-8BEC-682FDCB779B8}</Project>
+      <Name>Imposto.Domain.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Imposto.Domain\Imposto.Domain.csproj">
       <Project>{61B7A4C6-D753-4D42-92AD-3C8EE1F957F8}</Project>
       <Name>Imposto.Domain</Name>
