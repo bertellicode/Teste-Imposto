@@ -63,7 +63,8 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
         /// <param name="estadoDestino">Estado de destino da Nota Fiscal.</param>
         public void CalcularTipoIcms(string estadoOrigem, string estadoDestino)
         {
-            TipoIcms = estadoOrigem == estadoDestino ? "60" : "10";
+            if(!string.IsNullOrEmpty(estadoOrigem) && !string.IsNullOrEmpty(estadoDestino))
+                TipoIcms = estadoOrigem == estadoDestino ? "60" : "10";
         }
 
         /// <summary>
@@ -73,7 +74,8 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
         /// <param name="estadoDestino">Estado de destino da Nota Fiscal.</param>
         public void CalcularAliquotaIcms(string estadoOrigem, string estadoDestino)
         {
-            AliquotaIcms = estadoOrigem == estadoDestino ? (decimal)0.18 : (decimal)0.17;
+            if (!string.IsNullOrEmpty(estadoOrigem) && !string.IsNullOrEmpty(estadoDestino))
+                AliquotaIcms = estadoOrigem == estadoDestino ? (decimal)0.18 : (decimal)0.17;
         }
 
         /// <summary>     
@@ -104,8 +106,8 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
             {
                 TipoIcms = "60";
                 AliquotaIcms = (decimal)0.18;
-                ValorIcms = BaseIcms * AliquotaIcms;
                 AliquotaIpi = 0;
+                CalcularValorIcms();
             }
         }
 

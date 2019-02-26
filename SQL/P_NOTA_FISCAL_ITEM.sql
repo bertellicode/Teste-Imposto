@@ -17,7 +17,7 @@ CREATE PROCEDURE P_NOTA_FISCAL_ITEM
 (
 	@pId int,
     @pIdNotaFiscal int,
-    @pCfop varchar(5) = NULL,
+    @pCfop varchar(5),
     @pTipoIcms varchar(20),
     @pBaseIcms decimal(18,5),
     @pAliquotaIcms decimal(18,5),

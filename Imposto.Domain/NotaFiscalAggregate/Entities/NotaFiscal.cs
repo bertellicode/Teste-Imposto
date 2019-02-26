@@ -24,7 +24,7 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
 
         public bool AdicionarItemDaNotaFiscal(NotaFiscalItem notaFiscalItem, bool brinde)
         {
-            if (!ValidationResult.IsValid)
+            if (string.IsNullOrEmpty(EstadoOrigem) && string.IsNullOrEmpty(EstadoDestino))
                 return false;
 
             notaFiscalItem.CalcularCfopPorEstado(EstadoDestino);
@@ -57,8 +57,8 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
 
         private void ValidarEstadoOrigem()
         {
-            RuleFor(x => x.EstadoDestino)
-                .Must(x => !string.IsNullOrEmpty(EstadoDestino))
+            RuleFor(x => x.EstadoOrigem)
+                .Must(x => !string.IsNullOrEmpty(EstadoOrigem))
                 .WithMessage("Obrigatório informar o Estado Origem!");
         }
 

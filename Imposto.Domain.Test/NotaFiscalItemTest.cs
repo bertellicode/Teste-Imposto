@@ -19,9 +19,11 @@ namespace Imposto.Domain.Test
         public NotaFiscalItemTest()
         {
         }
-  
+
+        #region Calcular CFOP
+
         /// <summary>
-        /// Testa o calculo do CFOP.
+        /// Testa o cálculo do CFOP com valores válidos.
         /// </summary>
         [TestMethod]
         public void CalcularCfopTest()
@@ -34,60 +36,150 @@ namespace Imposto.Domain.Test
             {
                 notaFiscalItem.CalcularCfopPorEstado(x.Key);
 
-                Assert.AreEqual(x.Value, notaFiscalItem.Cfop, "Confere o valor aferido para o Cfop de acordo com o estado de destino.");
+                Assert.AreEqual(x.Value, notaFiscalItem.Cfop, "Erro ao calcular CFOP com entrada válida.");
             }
 
         }
 
         /// <summary>
-        /// Testa o calculo do Tipo do ICMS.
+        /// Testa o cálculo do CFOP com valores inválidos.
         /// </summary>
         [TestMethod]
-        public void CalcularTipoIcmsTest()
+        public void CalcularCfopEstadoInvalidoTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            notaFiscalItem.CalcularCfopPorEstado("SP");
+
+            Assert.AreEqual(null, notaFiscalItem.Cfop, "Erro ao calcular CFOP com entrada inválida.");
+        }
+
+        /// <summary>
+        /// Teste o cálculo do CFOP com entrada nula.
+        /// </summary>
+        [TestMethod]
+        public void CalcularCfopEstadoNuloTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            notaFiscalItem.CalcularCfopPorEstado(null);
+
+            Assert.AreEqual(null, notaFiscalItem.Cfop, "Erro ao calcular CFOP com entrada nula.");
+        }
+
+        #endregion
+
+        #region Calcular Tipo ICMS
+
+        /// <summary>
+        /// Testa o calculo do Tipo do ICMS quando estado de Origem e Destino são iguais.
+        /// </summary>
+        [TestMethod]
+        public void CalcularTipoIcmsEstadoOrigemDestinoIguaisTest()
         {
             notaFiscalItem = new NotaFiscalItem();
 
             var estadoOrigem = "RJ";
-            var estadoDestino1 = "RJ";
-            var estadoDestino2 = "SP";
+            var estadoDestino = "RJ";
 
-            notaFiscalItem.CalcularTipoIcms(estadoOrigem, estadoDestino1);
+            notaFiscalItem.CalcularTipoIcms(estadoOrigem, estadoDestino);
 
-            Assert.AreEqual("60", notaFiscalItem.TipoIcms, "Confere se quando o estado de origem é igual ao de origem o valor calculado é 60.");
-
-            notaFiscalItem.CalcularTipoIcms(estadoOrigem, estadoDestino2);
-
-            Assert.AreNotEqual("60", notaFiscalItem.TipoIcms, "Confere se quando o estado de origem é igual ao de origem o valor calculado não é 60.");
-            Assert.AreEqual("10", notaFiscalItem.TipoIcms, "Confere se quando o estado de origem é igual ao de origem o valor calculado é 10.");
+            Assert.AreEqual("60", notaFiscalItem.TipoIcms, "Erro ao calcular Tipo do ICMS quando estado de Origem e Destino são iguais.");
         }
 
         /// <summary>
-        /// Testa o calculo da Aliquota de ICMS.
+        /// Testa o calculo do Tipo do ICMS quando estado de Origem e Destino são diferentes.
         /// </summary>
         [TestMethod]
-        public void CalcularAliquotaIcmsTest()
+        public void CalcularTipoIcmsEstadoOrigemDestinoDiferentesTest()
         {
             notaFiscalItem = new NotaFiscalItem();
 
             var estadoOrigem = "RJ";
-            var estadoDestino1 = "RJ";
-            var estadoDestino2 = "SP";
+            var estadoDestino = "SP";
 
-            notaFiscalItem.CalcularAliquotaIcms(estadoOrigem, estadoDestino1);
+            notaFiscalItem.CalcularTipoIcms(estadoOrigem, estadoDestino);
 
-            Assert.AreEqual((decimal)0.18, notaFiscalItem.AliquotaIcms, "Confere se quando o estado de origem é igual ao de origem o valor calculado é 0.18.");
-
-            notaFiscalItem.CalcularAliquotaIcms(estadoOrigem, estadoDestino2);
-
-            Assert.AreNotEqual((decimal)0.18, notaFiscalItem.AliquotaIcms, "Confere se quando o estado de origem é igual ao de origem o valor calculado não é 0.18.");
-            Assert.AreEqual((decimal)0.17, notaFiscalItem.AliquotaIcms, "Confere se quando o estado de origem é igual ao de origem o valor calculado é 0.17.");
+            Assert.AreEqual("10", notaFiscalItem.TipoIcms, "Erro ao calcular Tipo do ICMS quando estado de Origem e Destino são diferentes.");
         }
 
         /// <summary>
-        /// Testa o calculo da Base do ICMS.
+        /// Testa o calculo do Tipo do ICMS quando estado de Origem e Destino são nulos.
         /// </summary>
         [TestMethod]
-        public void CalcularBaseIcmsTest()
+        public void CalcularTipoIcmsEstadoOrigemDestinoNulosTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            string estadoOrigem = null;
+            string estadoDestino = null;
+
+            notaFiscalItem.CalcularTipoIcms(estadoOrigem, estadoDestino);
+
+            Assert.AreEqual(null, notaFiscalItem.TipoIcms, "Erro ao calcular Tipo do ICMS quando estado de Origem e Destino são nulos.");
+        }
+
+        #endregion
+
+        #region Calcular Aliquota ICMS
+
+        /// <summary>
+        /// Testa o calculo da Aliquota de ICMS quando estado de Origem e Destino são iguais.
+        /// </summary>
+        [TestMethod]
+        public void CalcularAliquotaIcmsEstadoOrigemDestinoIguaisTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            var estadoOrigem = "RJ";
+            var estadoDestino = "RJ";
+
+            notaFiscalItem.CalcularAliquotaIcms(estadoOrigem, estadoDestino);
+
+            Assert.AreEqual((decimal)0.18, notaFiscalItem.AliquotaIcms, "Erro ao calcular Aliquota de ICMS quando estado de Origem e Destino são iguais.");
+        }
+
+        /// <summary>
+        /// Testa o calculo da Aliquota de ICMS quando estado de Origem e Destino são diferentes.
+        /// </summary>
+        [TestMethod]
+        public void CalcularAliquotaIcmsEstadoOrigemDestinoDiferentesTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            var estadoOrigem = "RJ";
+            var estadoDestino = "SP";
+            
+            notaFiscalItem.CalcularAliquotaIcms(estadoOrigem, estadoDestino);
+
+            Assert.AreEqual((decimal)0.17, notaFiscalItem.AliquotaIcms, "Erro ao calcular Aliquota de ICMS quando estado de Origem e Destino são diferentes.");
+        }
+
+        /// <summary>
+        /// Testa o calculo da Aliquota de ICMS quando estado de Origem e Destino são nulos.
+        /// </summary>
+        [TestMethod]
+        public void CalcularAliquotaIcmsEstadoOrigemDestinoNulosTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            string estadoOrigem = null;
+            string estadoDestino = null;
+
+            notaFiscalItem.CalcularAliquotaIcms(estadoOrigem, estadoDestino);
+
+            Assert.AreEqual(null, notaFiscalItem.AliquotaIcms, "Erro ao calcular Aliquota de ICMS quando estado de Origem e Destino são nulos.");
+        }
+
+        #endregion
+
+        #region Calcular Base ICMS
+
+        /// <summary>
+        /// Testa o calculo da Base do ICMS quando estado diferente de Sergipe.
+        /// </summary>
+        [TestMethod]
+        public void CalcularBaseIcmsEstadoDiferenteSergipeTest()
         {
             notaFiscalItem = new NotaFiscalItem();
 
@@ -96,14 +188,60 @@ namespace Imposto.Domain.Test
 
             notaFiscalItem.CalcularBaseIcms();
 
-            Assert.AreEqual(100, notaFiscalItem.BaseIcms, "Confere se o valor da BaseIcms não foi alterado.");
+            Assert.AreEqual(100, notaFiscalItem.BaseIcms, "Erro ao calcular Base do ICMS quando estado diferente de Sergipe.");
+        }
+
+        /// <summary>
+        /// Testa o calculo da Base do ICMS quando estado igual a Sergipe.
+        /// </summary>
+        [TestMethod]
+        public void CalcularBaseIcmsEstadoIgualSergipeTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
 
             notaFiscalItem.Cfop = "6.009";
+            notaFiscalItem.BaseIcms = 100;
 
             notaFiscalItem.CalcularBaseIcms();
 
-            Assert.AreEqual((decimal)90, notaFiscalItem.BaseIcms, "Confere se o valor da BaseIcms foi calculado para 90.");
+            Assert.AreEqual((decimal)90, notaFiscalItem.BaseIcms, "Erro ao calcular Base do ICMS quando estado igual de Sergipe.");
         }
+
+        /// <summary>
+        /// Testa o calculo da Base do ICMS quando CFOP nulo.
+        /// </summary>
+        [TestMethod]
+        public void CalcularBaseIcmsCfopNuloTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            notaFiscalItem.Cfop = null;
+            notaFiscalItem.BaseIcms = 100;
+
+            notaFiscalItem.CalcularBaseIcms();
+
+            Assert.AreEqual(notaFiscalItem.BaseIcms, notaFiscalItem.BaseIcms, "Erro ao calcular Base do ICMS quando CFOP nulo.");
+        }
+
+        /// <summary>
+        /// Testa o calculo da Base do ICMS quando estado igual a Sergipe e Base ICMS nulo.
+        /// </summary>
+        [TestMethod]
+        public void CalcularBaseIcmsEstadoIgualSergipeBaseIcmsNuloTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            notaFiscalItem.Cfop = "6.009";
+            notaFiscalItem.BaseIcms = null;
+
+            notaFiscalItem.CalcularBaseIcms();
+
+            Assert.AreEqual(null, notaFiscalItem.BaseIcms, "Erro ao calcular Base do ICMS quando quando estado igual a Sergipe e Base ICMS nulo.");
+        }
+
+        #endregion
+
+        #region Calcular Valor ICMS
 
         /// <summary>
         /// Testa o calculo do Valor do ICMS.
@@ -118,8 +256,44 @@ namespace Imposto.Domain.Test
 
             notaFiscalItem.CalcularValorIcms();
 
-            Assert.AreEqual(18, notaFiscalItem.ValorIcms, "Confere se o ValorIcms foi calculado para 18.");
+            Assert.AreEqual(18, notaFiscalItem.ValorIcms, "Erro ao calcular Valor ICMS.");
         }
+
+        /// <summary>
+        /// Testa o calculo do Valor do ICMS quando Base ICMS nulo.
+        /// </summary>
+        [TestMethod]
+        public void CalcularValorIcmsBaseIcmsNuloTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            notaFiscalItem.BaseIcms = null;
+            notaFiscalItem.AliquotaIcms = (decimal)0.18;
+
+            notaFiscalItem.CalcularValorIcms();
+
+            Assert.AreEqual(null, notaFiscalItem.ValorIcms, "Erro ao calcular Valor ICMS quando Base ICMS nulo.");
+        }
+
+        /// <summary>
+        /// Testa o calculo do Aliquota do ICMS quando Base ICMS nulo.
+        /// </summary>
+        [TestMethod]
+        public void CalcularValorIcmsAliquotaIcmsNuloTest()
+        {
+            notaFiscalItem = new NotaFiscalItem();
+
+            notaFiscalItem.BaseIcms = 100;
+            notaFiscalItem.AliquotaIcms = null;
+
+            notaFiscalItem.CalcularValorIcms();
+
+            Assert.AreEqual(null, notaFiscalItem.ValorIcms, "Erro ao calcular Aliquota ICMS quando Base ICMS nulo.");
+        }
+
+        #endregion
+
+        #region Calcular Item Pedido Brinde
 
         /// <summary>
         /// Testa o calculo realizado caso o pedido item for brinde.
@@ -134,11 +308,15 @@ namespace Imposto.Domain.Test
 
             notaFiscalItem.CalcularItemPedidoBrinde(brinde);
 
-            Assert.AreEqual("60", notaFiscalItem.TipoIcms, "Confere se o TipoIcms foi alterado para 60.");
-            Assert.AreEqual((decimal)0.18, notaFiscalItem.AliquotaIcms, "Confere se o TipoIcms foi alterado para 0.18.");
-            Assert.AreEqual(18, notaFiscalItem.ValorIcms, "Confere se o ValorIcms foi calculado para 18.");
-            Assert.AreEqual(0, notaFiscalItem.AliquotaIpi, "Confere se a AliquotaIpi foi alterada para 0.");
+            Assert.AreEqual("60", notaFiscalItem.TipoIcms, "Erro ao alterar TipoIcms para 60.");
+            Assert.AreEqual((decimal)0.18, notaFiscalItem.AliquotaIcms, "Erro ao alterar AliquotaIcms para 0.18.");
+            Assert.AreEqual(18, notaFiscalItem.ValorIcms, "Erro ao alterar o ValorIcms para 18.");
+            Assert.AreEqual(0, notaFiscalItem.AliquotaIpi, "Erro ao alterar a AliquotaIpi para 0.");
         }
+
+        #endregion
+
+        #region Calcular Valor IPI
 
         /// <summary>
         /// Testa o calculo do Valor do IPI.
@@ -155,6 +333,10 @@ namespace Imposto.Domain.Test
 
             Assert.AreEqual(10, notaFiscalItem.ValorIpi, "Confere se o ValorIpi foi calculado para 10.");
         }
+
+        #endregion
+
+        #region MyRegion
 
         /// <summary>
         /// Testa o calculo do percentual de desconto.
@@ -176,5 +358,8 @@ namespace Imposto.Domain.Test
 
             Assert.AreNotEqual(0, notaFiscalItem.Desconto, "Confere se o Desconto foi alterado para um valor diferente de 0.");
         }
+
+        #endregion
+
     }
 }
