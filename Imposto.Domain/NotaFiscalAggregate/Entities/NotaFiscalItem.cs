@@ -133,6 +133,10 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
             }
         }
 
+        /// <summary>
+        /// Validar Item da Nota Fiscal
+        /// </summary>
+        /// <returns>Status da oepração de validação</returns>
         public override bool Validar()
         {
             throw new NotImplementedException();

@@ -22,6 +22,12 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
 
         public virtual List<NotaFiscalItem> ItensDaNotaFiscal { get; set; }
 
+        /// <summary>
+        /// Adicionar Item da Nota Fiscal 
+        /// </summary>
+        /// <param name="notaFiscalItem">Nota Fiscal</param>
+        /// <param name="brinde">Define se é um brinde</param>
+        /// <returns>Status da operação</returns>
         public bool AdicionarItemDaNotaFiscal(NotaFiscalItem notaFiscalItem, bool brinde)
         {
             if (string.IsNullOrEmpty(EstadoOrigem) && string.IsNullOrEmpty(EstadoDestino))
@@ -48,6 +54,9 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
             return true;
         }
 
+        /// <summary>
+        /// Validar Nome do Cliente
+        /// </summary>
         private void ValidarNomeCliente()
         {
             RuleFor(x => x.NomeCliente)
@@ -55,6 +64,9 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
                 .WithMessage("Obrigatório informar o Nome do Cliente!");
         }
 
+        /// <summary>
+        /// Validar Estado Origem
+        /// </summary>
         private void ValidarEstadoOrigem()
         {
             RuleFor(x => x.EstadoOrigem)
@@ -62,6 +74,9 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
                 .WithMessage("Obrigatório informar o Estado Origem!");
         }
 
+        /// <summary>
+        /// Validar Estado Destino
+        /// </summary>
         private void ValidarEstadoDestino()
         {
             RuleFor(x => x.EstadoDestino)
@@ -69,6 +84,9 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
                 .WithMessage("Obrigatório informar o Estado Destino!");
         }
 
+        /// <summary>
+        /// Validar Item da Nota Fiscal
+        /// </summary>
         private void ValidarItemNotaFiscal()
         {
             RuleFor(x => x.ItensDaNotaFiscal)
@@ -76,6 +94,10 @@ namespace Imposto.Domain.NotaFiscalAggregate.Entities
                 .WithMessage("Obrigatório informar ao menos um Item da Nota Fiscal!");
         }
 
+        /// <summary>
+        /// Validar Nota Fiscal
+        /// </summary>
+        /// <returns>Status da oepração de validação</returns>
         public override bool Validar()
         {
             ValidarNomeCliente();
